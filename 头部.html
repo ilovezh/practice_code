@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            
+        }
+        body{
+            height: 100vh;
+            background-color: rgba(0,0,0,0);
+            background-image:url("./images/nbg.png");
+        }
+        .menu{
+            width:960px;
+            height:33px;
+            box-sizing: border-box;
+            border-bottom: 3px solid rgb(28,144,38);
+            margin: 10px auto;
+         }
+         ul{
+            overflow: hidden;
+         }
+         li{
+            position: relative;
+            float:left;
+            width:16%;
+            text-align: center;
+            line-height: 33px;
+         }
+         a{
+            color:rgb(28,144,38);
+            font-weight: 600;
+         }
+       li::after{
+            position: absolute;
+            content: "";
+            width:0;
+            height: 0;
+            border: 6px solid rgb(28,144,38);
+            border-top:8px solid transparent;
+            border-left:6px solid transparent;
+            border-right:6px solid transparent;
+            border-bottom:8px solid rgb(28,144,38);
+            left:50%;
+            /* left 的值设置百分比时参见父元素的值,transform设置百分比时参见自身的值 */
+            bottom:0;
+            display: none;
+           }
+          li:hover::after{
+            /* 表示li元素在鼠标移入时li元素伪元素(最后一个子元素)的样式 */
+            display: block;
+          }
+
+
+           .bac{
+            width:960px;
+            height:150px;
+            box-sizing: border-box;
+            margin: 10px auto;
+            overflow: hidden;
+            margin-top: 50px;
+           }
+           .bac img{
+            display: inline-block;
+            width:100%;
+            position: relative;
+            transition:2s;
+           }
+           .bac:hover img{
+              transform: scale(1.3);
+           }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="">首页</a>
+            </li>
+            <li>
+                <a href="">新闻中心</a>
+            </li>
+            <li>
+                <a href="">产品中心</a>
+            </li>
+            <li>
+                <a href="">解决方案</a>
+            </li>
+            <li>
+                <a href="">投资者关系</a>
+            </li>
+            <li>
+               <a href=""> 关于云创</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="bac">
+        <img src="./images/h_rgzz.png" alt="">
+    </div>
+</body>
+</html>

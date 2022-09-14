@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 手写 filter 方法
+        function myFilter(cb){
+        let newArr = [];
+        for(let index = 0; index < this.length; index++){
+        if(cb(this[index],index,this)){
+            newArr.push(this[index]);
+        }
+        }
+        return newArr
+    }
+    Array.prototype.myFilter = myFilter;
+     // 手写 map 方法
+     function myMap(cb){
+        let newArr = [];
+        for(let index = 0; index < this.length; index++){
+            this[index] = cb(this[index],index,this)
+            newArr.push(this[index])
+        }
+        return newArr
+     }
+     Array.prototype.myMap = myMap;
+     // 手写 reduce方法
+     function myReduce(cb,prev){
+       for(let index = 0; index < this.length; index++){
+          prev = cb(prev,this[index],index,this)
+       }
+       return prev
+     }
+
+     Array.prototype.myReduce = myReduce;
+
+     function myForEach(cb){
+     for(let index = 0; index < this.length; index++){
+    cb(this[index],index,this)
+    // cb函数为普通函数时,this指向为 window,因为在这里 cb函数属于自调用
+    // cb函数为箭头函数时,this指向为  myForEach函数被调用时所处上下文的this,当 myForEach函数在函数中被调用时
+    // cb函数的this指向为所处函数被调用时的this指向;当 myForEach函数在window中被调用时, cb函数的this指向为window
+    // 可以通过外部传递进去的this在cb函数内部使用该传递进入的this
+   }
+   }
+   Array.prototype.myForEach = myForEach;
+
+   // 手写 new
+ function myNew(...args){
+    // 表示将传入的所有实参合并为 args这个变量
+    // 即args 为 ["你好",12]
+    let obj = {};
+    // ...args 为 "你好" 12
+    this.call(obj,...args);
+    return obj
+ }
+ Object.prototype.myNew = myNew;
+
+
+//  function Person(name,age){
+//     this.name = name;
+//     this.age = age;
+//  }
+
+//  let p1 = Person.myNew("你好",12);
+//  console.log(p1)
+
+// 手写 every
+function MyEvery(cb){
+let b = true
+for(let index = 0; index < this.length;index++){
+    if (!cb(this[index],index,this)) b = false;
+}
+return b;
+}
+Array.prototype.MyEvery = MyEvery;
+
+// 手写 some
+function MySome(cb){
+let b = false
+for(let index = 0; index < this.length;index++){
+    if (cb(this[index],index,this)) b = true;
+}
+return b;
+}
+Array.prototype.MySome = MySome;
+
+// 手写 reduceRight
+function MyReduceRight (cb,prev){
+this.reverse()
+// reverse方法会反转数组,将数组逆序,返回值为倒序后的数组
+for(let index = 0; index < this.length; index++){
+   prev =  cb(prev,this[index],index,this)
+}
+return prev
+}
+Array.prototype.MyReduceRight = MyReduceRight;
+
+
+// 手写fill方法
+function myFill (value,start,end){
+    if(!start) start = 0;
+    if(start >= this.length) return this;
+    if(!end) end = this.length;
+    if(end > this.length) end = this.length;
+    for(let i = start; i < end; i++){
+        this[i] = value;
+    }
+    return this;
+}
+
+Array.prototype.myFill = myFill
+
+
+    </script>
+</body>
+</html>

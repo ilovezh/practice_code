@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="#/a">去a</a>
+    <a href="#/b">去b</a>
+
+    <a onclick="push('/a')">去a1</a>
+    <a onclick="push('/b')">去b2</a>
+   <!-- a标签中不加href属性时,a标签下面不会出现下划线 -->
+    <script>
+        window.addEventListener("hashchange",()=>{
+            console.log(window.location.hash)
+        })
+
+        function push(path){
+            history.pushState({p:path},null,path)
+        }
+
+        window.addEventListener("popstate",(e)=>{
+            console.log(history.length)
+            // 浏览记录的个数
+            console.log(e)
+        })
+
+    </script>
+</body>
+</html>

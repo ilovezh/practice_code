@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function LinkedList(){
+            this.list = new Node();
+        }
+        LinkedList.prototype.insert = insert
+        function Node(element=null,next=null){
+            this.element = element;
+            this.next = next;
+        }
+
+        function insert(oldNode,newNode){
+            let list = this.list;
+            while(list && list.element != oldNode.element){
+                list = list.next;
+         }
+         if(list.element == null || list.next == null){
+            list.next = newNode
+         }else{
+            newNode.next = list.next;
+            list.next = newNode
+         }
+         
+           
+        }
+
+        let List = new LinkedList();
+        let l1 = new Node("第一个节点")
+        List.insert(List.list,l1);
+        let l2 = new Node("第二个节点")
+        List.insert(l1,l2);
+        let l3 = new Node("第三个节点")
+        List.insert(l1,l3);
+       
+        console.log(List.list);
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    console.log(Array.prototype)
+     // 手写 slice
+      function mySlice(start,end=this.length){
+        let result = []
+       for(let key in this){
+        // key为字符串形式 "0" "1" "2" ...
+       if(typeof +key == "number" && +key >= start && key < end){
+         result.push(this[key])
+       }
+       }
+       return result
+      }
+
+      
+    //   手写map
+      function myMap(cb){
+       let result = [];
+        for(let i = 0; i < this.length; i++){
+            result.push(cb(this[i],i,this));
+        }
+        return result
+      }
+
+   //  手写 fill
+   function myFill(value,start,end = this.length){
+        if(start >= this.length) return this
+        if(end <= start)  return  this
+        if(end >= this.length) end = this.length;
+        for(let i = start; i < end; i++){
+            this[i] = value;
+        }
+        return this
+   }
+ 
+//    手写 call
+   function myCall(context,...args){
+    if(context == null || context == undefined) context = window;
+    context.fn = this;
+    let result = context.fn(...args);
+    delete context.fn;
+    return result;
+   }
+
+// 手写 apply
+function myApply(context,args){
+    if(context == null || context == undefined) context = window;
+    context.fn = this;
+    let result = context.fn(...args);
+    delete context.fn;
+    return result;
+}
+
+
+
+      Array.prototype.mySlice = mySlice
+      Array.prototype.myMap = myMap
+      Array.prototype.myFill = myFill
+      Function.prototype.myCall = myCall
+      Function.prototype.myApply = myApply
+    //   普通函数被对象调用时,该函数的this指向为该对象
+    // JS中 函数 数组 对象 除了 number boolean string undefined null symbol 其他都是对象
+   
+    
+      
+    </script>
+</body>
+</html>

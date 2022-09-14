@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .container{
+        width:500px;
+        height:30px;
+        line-height: 30px;
+        border:1px solid skyblue ;
+        position:relative;
+      }
+      .bar{
+       position:absolute;
+       top:0;
+       left:0;
+       height:30px;
+       line-height: 30px;
+       text-align: center;
+       background-color: blue;
+       transition:1s;
+       color:#fff;
+      }
+      .btn{
+        width:100px;
+        height:30px;
+        line-height: 30px;
+        text-align: center;
+        margin-top:10px;
+      }
+      .input{
+        margin: 20px;
+      }
+    </style>
+</head>
+<body>
+    <div class = "container">
+       <div class="bar"></div>
+    </div>
+    <button class = "btn">安装</button>
+    <button class = "btn1">点击</button>
+
+    <input type="text" placeholder="请输入内容" class = "input">
+    <script>
+        let bar = document.querySelector(".bar");
+        let btn = document.querySelector(".btn");
+        let input = document.querySelector("input")
+        let btn1 = document.querySelector(".btn1");
+        let timer 
+        let width;
+        function cb(){
+            clearInterval(timer);
+             width = 0;
+            timer =   setInterval(()=>{
+            if(width <= 450){
+            width += 50
+            bar.style.width = width + "px"
+            bar.innerHTML =  parseInt(width / 5) + "%"
+           }
+          },1000)
+        
+        }
+        btn.addEventListener("click",cb)
+       
+        function debounce(fn,delay){
+        let timer;
+        console.log(1)
+        return (e)=>{
+            if(timer){
+            clearTimeout(timer);
+         }
+         timer =   setTimeout(()=>{
+            fn(e);
+           },delay)
+        }
+        }
+         function cb1(e){
+            console.log(e.target.value);
+         }
+         
+        input.addEventListener("input",debounce(cb1,3000));
+         function throttle (fn,delay){
+          let timer;
+          return(e)=>{
+           if(!timer){
+            timer = setTimeout(()=>{
+             fn();
+            timer = null;
+           //定时器内的代码将会在 delay时间后执行
+            },delay)
+          }
+           }
+             }
+         function cb3(){
+            console.log("提交");
+         }
+   
+         btn1.addEventListener("click",throttle(cb3,2500))
+
+
+
+       
+
+
+       
+
+
+
+       
+
+    </script>
+</body>
+</html>

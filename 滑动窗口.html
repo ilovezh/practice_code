@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//    1 11 21 1211 111221 312211 13112221
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function countNum(n){
+let arr = ["1","11"];
+for(let i = 2; i <= n-1; i++){
+  arr[i] = countFn(arr[i-1]);
+}
+return arr[n-1];
+}
+
+console.log(countNum(50))
+
+
+function countFn(value){
+let result = "";
+ let i  = 0,j = 1;
+ while(j <= value.length){
+  if(value[j] == value[i]){
+    j++;
+  }else{
+    result += `${j - i}${value[i]}`
+    i = j;
+    j ++;
+  }
+ }
+ return result
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

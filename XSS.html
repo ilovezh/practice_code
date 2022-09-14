@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        a{
+            display: block;
+            width:100%;
+            height: 20px;
+        }
+        .input{
+            display: inline-block;
+            width:100%;
+            height:80px;
+            line-height: 80px;
+            outline: none;
+            box-shadow: 1px 1px 1px blue;
+            color:#008c8c;
+            font-size: 25px;
+        }
+        .content{
+            margin-top: 20px;
+            height:500px;
+            border:1px solid #ccc;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:alert('xss')">点击</a>
+    <input type="text" class = "input">
+    <div class = "content"></div>
+    <script>
+      function handleHTML(htmlStr){
+        for(let i = 0; i < htmlStr.length; i++){
+            switch(htmlStr[i]){
+                case "<":
+               htmlStr.replace(htmlStr[i],"&lt;")
+                // 在html中 "&lt;"会被转义为 文本形式的 "<" ,而不会被识别为标签的开头的识别符号
+                break;
+                case ">":
+              // 在html中 "&gt;"会被转义为 文本形式的 ">" ,而不会被识别为标签的结尾的识别符号
+              htmlStr.replace(htmlStr[i],"&gt;")
+                break;
+            }
+        }
+       
+        return htmlStr
+      }
+        let input = document.querySelector(".input");
+        let content = document.querySelector(".content")
+        input.addEventListener("keyup",(e)=>{
+            if(e.keyCode == 13){
+             content.innerHTML = handleHTML(e.target.value)
+             e.target.value = "";
+            }
+      
+        })
+    </script>
+</body>
+</html>

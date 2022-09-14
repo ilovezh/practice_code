@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      // 数组打乱算法
+        function random_mess(arr){
+         for(let i = 0; i < arr.length; i++){
+        const j = i + Math.floor(Math.random()*(arr.length - i));
+        [arr[i],arr[j]] = [arr[j],arr[i]]
+      }
+      return arr;
+        }
+
+      //  数组打乱算法
+        function random_mess1(arr){
+         return arr.sort(()=>Math.random()-0.5);
+        }
+    
+
+        // 插入排序
+      function insert_sort(arr){
+       for(let i = 0; i < arr.length; i++){
+        for(let j = 0; j < i; j++){
+          if(arr[i] <= arr[j]){
+            [arr[i],arr[j]] = [arr[j],arr[i]];
+          }
+        }
+       }
+       return arr
+      }
+
+
+       //  冒泡排序
+  function bubble_sort(arr){
+    for(let i = 0; i < arr.length; i++){
+      for(let j = i + 1 ; j < arr.length; j++){
+        if(arr[i] <= arr[j]){
+          [arr[i],arr[j]] = [arr[j],arr[i]];
+        }
+      }
+    }
+    return arr;
+  }
+
+       // 寻找最大值
+      function search_max(arr){
+        let max_value = arr[0];
+        for(let i = 1; i < arr.length; i++){
+          if(max_value <= arr[i]){
+            max_value = arr[i]
+          }
+        }
+        return max_value
+      }
+     
+      // 寻找最大值
+    function search_max1(arr){
+      return Math.max.apply(null,arr);
+    }
+    
+// 桶排序
+function bucketSort(array, bucketSize = 5) {
+  if (array.length <= 1) return array;
+  var buckets = createBuckets(array, bucketSize) // 创建桶并将元素分布到不同的桶中
+  return sortBuckets(buckets);
+}
+
+// 创建桶并将元素分布到不同的桶中
+function createBuckets(array, bucketSize) { // bucketSize表示每个桶的容量
+  var maxValue = Math.max(...array); // ES6的骚操作
+  var minValue = Math.min(...array); // ES6的骚操作
+  var bucketCount = Math.ceil((maxValue - minValue) / bucketSize)
+   // 桶排序的第一个重要步骤是计算每个桶中需要分布的元素个数
+  var buckets = [];
+  for (let i = 0; i < bucketCount; i++) {
+    buckets[i] = []; // 将每个桶置空初始化
+  }
+  for (var i = 0; i < array.length; i++) {
+    var bucketIndex = Math.floor((array[i] - minValue) / bucketSize); 
+    // 计算要将元素放到哪个桶中
+    buckets[bucketIndex].push(array[i]);
+     // 将元素存入各个桶中
+  }
+  return buckets
+}
+// 将每个桶进行排序
+function sortBuckets(buckets) {
+  var sortedArray = [];
+  for (let i = 0; i < buckets.length; i++) {
+    if (buckets[i] != null) {
+      sortedArray.push(...(buckets[i]).sort());
+    }
+  }
+  return sortedArray;
+}
+
+// 桶排序
+function bucket_sort(array,bucketsize = 5){
+if (array.length <= 1) return array;
+let buckets = create_bucket(array,bucketsize);
+return sort_buckets(buckets);
+}
+
+function create_bucket(array,bucketsize){
+  let  max_value = Math.max(...array);
+  let  min_value = Math.min(...array);
+  const bucket_count = parseInt((max_value - min_value) /  bucketsize);
+  let buckets =  new Array(bucket_count);
+  for(let i = 0; i < bucket_count; i++){
+    buckets[i] = [];
+  }
+  for(let i  = 0 ;i < array.length; i++){
+    let bucketIndex = parseInt((array[i] - min_value) / bucketsize);
+    if(!buckets[bucketIndex]) buckets[bucketIndex] = [] 
+        buckets[bucketIndex].push(array[i]);
+}
+  return buckets;
+}
+
+function sort_buckets(buckets){
+  let sortedArray = [];
+  for(let i = 0; i < buckets.length; i++){
+    if(buckets[i]){
+      sortedArray.push(...(buckets[i].sort((a,b)=>a-b)))
+    }
+  }
+  return sortedArray
+}
+
+console.log(bucket_sort([111,22,3,3,555,888,111,666,88,52,8,52,8,22,555,55,63,9,39,96,8],5))
+
+//  归并排序
+function mergeSortTopDown(arr){
+  if(arr.length == 1) return arr;
+  // Math.floor 向下取整
+  let middle = Math.floor(arr.length / 2);
+  // slice方法传入的为索引,前取到后取不到
+  let left = arr.slice(0,middle);
+  let right = arr.slice(middle);
+  left = mergeSortTopDown(left);
+  right = mergeSortTopDown(right);
+  return merge(left,right);
+}
+function merge(arr1,arr2){
+let result = [];
+while(arr1.length && arr2.length){
+  if(arr1[0] <= arr2[0]){
+    result.push(arr1.shift())
+  }else{
+    result.push(arr2.shift())
+  }
+}
+// 若两个数组有剩余，合并到新数组
+return result.concat(arr1,arr2);
+}
+
+console.log(mergeSortTopDown([1,56,3,8,2,8]))
+// left = [1,56,3]                             right = [8,2,8]
+// left = [1] right=[56,3]                   left = [8] right = [2,8]
+// left = [1] right = [3,56]                 left = [8]  right = [2,8]
+// left = [1,3,56]                           right = [2,8,8]
+// [1,2,3,8,8,56]
+
+
+
+// 浅拷贝
+function shallowCopy(obj){
+  let newObj = {};
+ for(let key of Reflect.ownKeys(obj)){
+  newObj[key] = obj[key]
+ }
+  // let key = "name" obj[key] 即obj["name"]等效  obj.name
+  return newObj
+}
+let originObj = {name:"你好",hobby:["下棋","玩耍"]}
+let newObj = shallowCopy(originObj)
+
+newObj["hobby"][0] = "ss"
+console.log(newObj)
+console.log(originObj)
+//深拷贝
+function deepCopy(key){
+  if(typeof key == "object"){
+   let newKey = Object.prototype.toString.call(key) == "object" ? {} : [];
+   for(let prop of Reflect.ownKeys(key)){
+    newKey[prop] = deepCopy(key[prop])
+ }
+ return newKey
+  }else{
+    return key;
+  }
+}
+// let originObj = {name:"你好",hobby:["下棋","玩耍"]}
+// let newObj = deepCopy(originObj)
+
+// newObj["hobby"][0] = "ss"
+// console.log(newObj)
+// console.log(originObj)
+
+
+// 归并排序
+function merger_sort(arr){
+  if(arr.length == 1) return arr;
+  let middle =  Math.floor(arr.length / 2);
+  let left = arr.slice(0,middle);
+  let right = arr.slice(middle);
+  left = merger_sort(left);
+  right = merger_sort(right);
+  return doMerger(left,right);
+}
+
+function doMerger(arr1,arr2){
+  let result = [];
+  while(arr1.length && arr2.length){
+    if(arr1[0] <= arr2[0]){
+      result.push(arr1.shift())
+    }else{
+      // shift()删除数组的首项并返回数组删除的首项
+      result.push(arr2.shift())
+    }
+  }
+  return result.concat(arr1,arr2);
+}
+
+console.log(merger_sort([1,5,9,2,0,3,7,1]))
+    </script>
+</body>
+</html>

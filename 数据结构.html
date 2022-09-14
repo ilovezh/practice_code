@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+  // 单列表
+   function Node(value=null,nextNode=null){
+    this.value = value;
+    this.next = nextNode;
+   }
+
+   function LinkedList(){
+    this.head = new Node("head");
+   }
+
+    
+   // 查找某一节点
+   LinkedList.prototype = {
+    find(value){
+    let target= null
+    let current = this.head;
+    // 刚开始 current 指向 头节点
+     while(current){
+        if(current.value == value){
+            target = current
+        }
+        current = current.next;
+        // 头节点指向头节点的下一个节点
+     }
+    
+     return target
+   },
+   // 在某一节点后插入新节点
+   insert(oldValue,newValue){
+     let newNode = new Node(newValue);
+     let oldNode = this.find(oldValue);
+     if(!oldNode) throw new Error("老节点不存在")
+     if(oldNode.next){
+        newNode.next = oldNode.next;
+        oldNode.next = newNode
+     }else{
+        oldNode.next = newNode
+     }
+    
+     return this.head
+   },
+   // 找到某一节点的前驱
+   findPrevous(value){
+    let prevous = null;
+    let node = this.find(value);
+    let current = this.head
+    while(current){
+        if(current.next == node){
+            prevous = current
+        }
+        current = current.next
+    }
+    return prevous
+   },
+   //删除某一结点
+   remove(value){
+    let node = this.find(value);
+    if(node.next == null){
+      let prevous =   this.findPrevous(value)
+      prevous.next = null
+    }else{
+        let prevous =   this.findPrevous(value)
+        prevous.next = node.next
+    }
+    return this.head
+   },
+   //修改某一节点的数据
+   edit(value,newValue){
+   let node = this.find(value);
+   node.value = newValue;
+   return this.head;
+   },
+   // 打印所有节点
+   display(){
+    let current = this.head;
+    while(current){
+        console.log(current)
+        current = current.next
+    }
+   }
+   }
+
+
+   // 栈 (后进先出),只在一端(栈顶)进行添加/删除元素
+   function Stack(){
+    this.items = [];
+  
+   }
+   Stack.prototype = {
+    // 添加元素到栈顶
+    push(item){
+    this.items.push(item);
+    },
+    //移除栈顶的元素,返回删除的元素
+    pop(){
+      if(this.isEmpty()) { throw new Error("该栈为空栈")}else{ return this.items.pop();}
+    },
+    // 返回栈顶的元素
+    peek(){
+      return this.items[this.items.length - 1]
+    },
+    // isEmpty，判断栈是否为空
+    isEmpty(){
+    return this.items.length == 0 ? true : false;
+    },
+    // clear,清除栈里所有的元素
+    clear(){
+      this.items = [];
+    },
+    // 返回栈中元素的个数
+    size(){
+     return this.items.length;
+    }
+   }
+   
+
+   // 队列
+   // 先进先出 队尾添加元素 队首删除元素
+   function Queue(){
+    this.data = [];
+    this.enqueue = enqueue;// 入队,队尾添加元素
+    this.dequeue = dequeue; // 出队,队首删除元素
+    this.front = front; // 读取队首元素
+    this.back = back; // 读取队尾元素
+    this.isEmpty = isEmpty; //判断队列受否为空
+    this.toStringData = toStringData;//显示队内元素
+}
+function enqueue(v){
+  this.data.push(v);
+}
+function isEmpty(){
+  return this.data.length == 0
+}
+function dequeue(){
+  if(this.isEmpty()){
+   throw new Error("该队列为空队列")
+  }else{
+    return this.data.shift();
+   
+  }
+}
+function front(){
+  return this.data[0]
+}
+function back(){
+  return this.data[this.data.length-1]
+}
+function toStringData(){
+  return this.data.toString();
+}
+
+
+
+   
+
+   
+
+ 
+
+
+
+
+
+
+
+  
+   
+    </script>
+</body>
+</html>

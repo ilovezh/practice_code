@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  ([])     */
+        // 属于词法分析问题,应该使用栈这个数据结构
+        //  [([
+        function isValid(str){
+            if(str.length <= 1 || str.length % 2 !== 0) return false
+        let stack = [];
+        for(let i = 0; i < str.length; i++){
+           switch(str[i]){
+            case "{":
+            case "[":
+            case "(":
+             stack.push(str[i])
+             break;
+             case "}":
+            console.log(stack[stack.length - 1])
+            if(stack[stack.length-1] == "{"){stack.pop()}else{stack.push("}")};
+            break
+             case "]":
+             if(stack[stack.length-1] == "["){stack.pop()}else{stack.push("]")};
+            break
+             case ")":
+             if(stack[stack.length-1] == "("){stack.pop()}else{stack.push(")")};
+            break
+           }
+        }
+        if(stack.length == 0) return true;
+        return false;
+        }
+
+        console.log(isValid("([}}])"))
+    </script>
+</body>
+</html>

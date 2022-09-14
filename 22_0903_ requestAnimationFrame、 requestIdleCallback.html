@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        div{
+      position:absolute;
+      left : 0;
+      width:100px;
+      height:100px;
+      background-color: blue;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <script>
+        // 防抖
+        function _tremble(cb,delay=300){
+            let timer;
+            return (event)=>{
+            if(timer) clearTimeout(timer);
+            timer = setTimeout(()=>{
+                cb(event);
+            },delay)
+            }
+        }
+     //节流
+     function _throttle(cb,delay=300){
+        let timer;
+        return (event)=>{
+          if(!timer){
+           timer = setTimeout(()=>{
+            cb(event);
+            timer = null;
+           },delay)
+          }
+        }
+     }
+
+     //  window.requestAnimationFrame
+   let div = document.querySelector("div");
+  function animation(time=1000,cb){
+    const requestAnimationFrame = window.requestAnimationFrame || 
+                                  window.mozRequestAnimationFrame ||
+                                  window.webkitRequestAnimationFrame ||
+                                  window.msRequestAnimationFrame;
+    const cancelAnimationFrame =  window.cancelAnimationFrame ||
+                                  window.mozCancelAnimationFrame;
+   let myReq
+   let count = 0;
+   return function step(){
+    count ++;
+    myReq  = requestAnimationFrame(step)
+    window.myReq = myReq
+   
+        // 当time 为 1000时 当count 为 60的倍数时 ,cb 函数才执行一次
+        // 因为 1s 有 60帧 count 每帧增加1,1scount增加60 所以 cb 函数为1s执行一次
+        // left 每秒增加10 所以 left 增加到500需要50s 
+        cb()
+    }
+}      
+  function cb(){
+    let left = 0;
+    return ()=>{
+        left += 2;
+    // 1s 之内 requestAnimationFrame 执行 60 次,即left 的值增加 60
+    // left 增加500需要 500/60  约为 8.3s 即 约为 8300ms
+    div.style.left = left + "px";
+    if(left >= 500){
+        cancelAnimationFrame(myReq)
+    }
+
+    }
+  }
+  requestAnimationFrame(animation(1000,cb()))
+
+ //  window.requestIdleCallback
+   requestIdleCallback(handleTask)
+   function handleTask(deadline){
+      const task = [
+        ()=>{console.log("任务1")},
+        ()=>{console.log("任务2")},
+        ()=>{console.log("任务3")},
+      ]
+      while((deadline.timeRemaining()>0 || deadline.didTimeout)&& task.length > 0){
+        work(task)
+      }
+    if(task.length > 0){
+        requestIdleCallback(handleTask)
+    }
+   }
+   function work(task){
+    console.log("开始")
+    task.shift()()
+    // shift() 删除数组的第一项,返回值为数组删除的第一项
+    // unshift 添加至数组的第一项,返回值为添加完成后数组的长度
+   }
+    </script>
+</body>
+</html>

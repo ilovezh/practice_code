@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .demo{
+            width:100px;
+            height:100px;
+            background-color: orange;
+            position:absolute;
+            /* 如果想要将一个元素A的位置移动到另一个元素B的位置上,那么A元素的层级需要比B元素的层级高,即z-index的数值大(距离人的眼睛更近) */
+            z-index: 2;
+        }
+        .position{
+            width:100px;
+            height:100px;
+            border:1px solid #333;
+            position:absolute;
+            left:200px;
+            top:200px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="demo"></div>
+    <div class="position"></div>
+    <script>
+     let demo = document.querySelector(".demo");
+     document.addEventListener("mousedown",(e)=>{
+         document.addEventListener("mousemove",mousemove)
+      })
+   function mousemove(e){
+   let moveX = e.clientX - demo.offsetWidth/2;
+   // offsetWidth 为元素(包括边框的宽度，这里为100)
+   // 元素左偏移量 为  e.clientX - 50(元素宽度的一半)为使鼠标位置永远在元素的中心
+   let moveY = e.clientY - demo.offsetHeight/2;
+     // offsetWidth 为元素(包括边框的高度，这里为100)
+    // 元素上偏移量 为  e.clientY - 50(元素宽度的一半)为使鼠标位置永远在元素的中心
+    //阻止元素离开视窗范围产生滚动条
+    if(moveX <= 0){
+        moveX = 0;
+    }
+    if(moveY <= 0){
+        moveY = 0;
+    }
+    if(moveX >= window.innerWidth - demo.offsetWidth){
+        moveX = window.innerWidth - demo.offsetWidth
+    }
+    if(moveY >= window.innerHeight - demo.offsetHeight){
+        moveY = window.innerHeight - demo.offsetHeight
+    }
+    // innerHeight 返回窗口的文档显示区的高度，如果有垂直滚动条，也包括滚动条高度。
+    // innerWidth 返回窗口的文档显示区的宽度，如果有水平滚动条，也包括滚动条高度。
+   demo.style.left = moveX + "px";
+   demo.style.top = moveY + "px";
+  
+}
+    // 解绑事件时 removeEventListener("mousemove",mousemove)
+    // 回调函数必须是声明好的,如果使用匿名函数作为事件的回调函数(匿名函数之间永远是不相同的),从而解绑事件时与绑定事件时回调函数不是同一个
+    //函数,从而导致该事件无法被解绑
+      document.addEventListener("mouseup",()=>{
+      document.removeEventListener("mousemove",mousemove)
+     })
+    </script>
+</body>
+</html>

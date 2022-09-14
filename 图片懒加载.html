@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+      
+        img{
+            width:100%;
+            height:100vh;
+        }
+        img[src=""],img:not([src]){
+           opacity:0
+        }
+    </style>
+</head>
+<body> 
+    <img src=""  data-src = "./images/1.jpeg">
+    <img src=""  data-src = "./images/2.jpeg">
+    <img src=""  data-src = "./images/3.jpeg">
+    <img src=""  data-src = "./images/4.jpeg">
+    <img src=""  data-src = "./images/5.jpeg">
+    <img src=""  data-src = "./images/6.jpeg">
+  <script>
+// 当html/body元素绑定事件时直接绑定到document文档对象上(绑定到html/body元素)上可能会失效
+  let images = document.getElementsByTagName("img");
+     
+  function debounce(fn,delay){
+    // 封装防抖函数
+    let timer;
+    return (e)=>{
+        if(timer){
+            clearTimeout(timer);
+        }
+        timer = setTimeout(()=>{
+           fn(e);
+        },delay)
+    }
+  }
+
+  function throttle(fn,delay){
+    //封装节流函数
+    let timer;
+    return(e)=>{
+        if(!timer){
+     timer = setTimeout(()=>{
+        fn(e)
+        timer = null;
+     },delay)
+    }
+    }
+  
+  }
+  
+  function lazyload(){
+     // 获取滚动条距离顶部的距离
+       for(let i = 0; i < images.length; i++){
+        let _scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if(images[i].offsetTop <= _scrollTop){
+          // offsetTop 这里为 图片元素相当于 body 元素padding盒子的垂直偏移距离
+          images[i].src = images[i].dataset.src;
+     }
+       }
+}
+
+lazyload();
+document.addEventListener("scroll",throttle(lazyload,300))
+  </script>
+</body>
+</html>

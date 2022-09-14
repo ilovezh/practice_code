@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.other,
+			.wrapper {
+				position: relative;
+				width: 300px;
+				height: 300px;
+				background-color: red;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+
+			.wrapper {
+				transform: rotate(22.5deg)
+					/* 在wrapper的旋转角度为22.5度时指向1号大奖,即默认wrapper已经旋转了22.5度 */
+			}
+
+			.left,
+			.right {
+				width: 150px;
+				height: 100%;
+				overflow: hidden;
+				position: absolute;
+			}
+
+			.left {
+				left: 0;
+				background-color: blue;
+			}
+
+			.right {
+				right: 0;
+				background-color: yellow;
+			}
+
+			.left div,
+			.right div {
+				position: absolute;
+				width: 150px;
+				height: 100%;
+			}
+
+			.left div {
+				transform-origin: right center;
+			}
+
+			.right div {
+				transform-origin: left center;
+			}
+
+			.left div.one {
+				background-color: red;
+
+			}
+
+			.left div.two {
+				background-color: yellow;
+				transform: rotate(-45deg);
+			}
+
+			.left div.three {
+				background-color: blue;
+				transform: rotate(-90deg);
+			}
+
+			.left div.four {
+				background-color: green;
+				transform: rotate(-135deg);
+			}
+
+			.right div.one {
+				background-color: green;
+			}
+
+			.right div.two {
+				background-color: yellow;
+				transform: rotate(45deg);
+			}
+
+			.right div.three {
+				background-color: blue;
+				transform: rotate(90deg);
+			}
+
+			.right div.four {
+				background-color: red;
+				transform: rotate(135deg);
+			}
+
+			.left span {
+				position: absolute;
+				left: 55%;
+				top: 30px;
+				transform: rotate(-22deg)
+					/* rotate的度数为正时为顺时针旋转,为负时,为逆时针旋转 */
+			}
+
+			.right span {
+				position: absolute;
+				left: 12%;
+				top: 30px;
+				transform: rotate(30deg)
+					/* rotate的度数为正时为顺时针旋转,为负时,为逆时针旋转 */
+			}
+
+			.circle {
+				position: absolute;
+				width: 90px;
+				height: 90px;
+				border-radius: 50%;
+				background-color: orange;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+				line-height: 90px;
+				font-size: 30px;
+				font-weight: bold;
+				cursor: pointer;
+				/*设置鼠标形状*/
+				user-select: none;
+				/* 禁止文字被选中 */
+			}
+
+			.circle::before {
+				content: "";
+				position: absolute;
+				top: -75px;
+				left: 50%;
+				transform: translate(-50%);
+				border: 40px solid orange;
+				border-left-width: 10px;
+				border-right-width: 10px;
+				border-left-color: transparent;
+				border-right-color: transparent;
+				border-top-color: transparent;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="other">
+
+			<div class="wrapper">
+				<div class="left">
+					<div class="one">
+						<span>一号大奖</span>
+					</div>
+					<div class="two">
+						<span>二号大奖</span>
+					</div>
+					<div class="three">
+						<span>三号大奖</span>
+					</div>
+					<div class="four">
+						<span>四号大奖</span>
+					</div>
+				</div>
+				<div class="right">
+					<div class="one">
+						<span>一号大奖</span>
+					</div>
+					<div class="two">
+						<span>二号大奖</span>
+					</div>
+					<div class="three">
+						<span>三号大奖</span>
+					</div>
+					<div class="four">
+						<span>四号大奖</span>
+					</div>
+				</div>
+			</div>
+			<div class="circle">
+				抽奖
+			</div>
+		</div>
+		<script>
+			let wrapper = document.querySelector(".wrapper");
+			let textAll = document.querySelectorAll("span");
+			let circle = document.querySelector(".circle");
+			let texts = ["1号大奖", "2号大奖", "3号大奖", "4号大奖", "5号大奖", "6号大奖", "7号大奖", "未中奖"];
+			textAll.forEach((item, index) => {
+				item.innerHTML = texts[index];
+			})
+			// 权重数组
+			let weight = [1, 5, 10, 15, 22, 30, 40, 100]
+			let flag = true;
+			circle.addEventListener("click", function() {
+				if (flag) {
+					let random = parseInt(Math.random() * 100);
+					let randomWeight = weight.concat(random)
+					randomWeight.sort((a, b) => a - b)
+					let randomIndex = randomWeight.indexOf(random);
+					
+					/*注释补充一号奖为旋转22.5度的原因.wrapper {
+				transform: rotate(22.5deg)
+					 在wrapper的旋转角度为22.5度时指向1号大奖,即默认wrapper已经旋转了22.5度 */
+			
+					switch (randomIndex) {
+						case 0:
+							run(22.5, texts[randomIndex]);
+							// 旋转到1号大奖,需要转22.5deg(度)
+							break;
+						case 1:
+							run(66.5, texts[randomIndex]);
+							// 旋转到2号大奖,需要转66.5deg(度)
+							break;
+						case 2:
+							run(112.5, texts[randomIndex]);
+							// 旋转到3号大奖,需要转112.5deg(度)
+							break;
+						case 3:
+							run(157.5, texts[randomIndex]);
+							// 旋转到4号大奖,需要转157.5deg(度)
+							break;
+						case 4:
+							run(338.5, texts[randomIndex]);
+							// 旋转到5号大奖,需要转338.5deg(度)
+							break;
+						case 5:
+							run(294.5, texts[randomIndex]);
+							// 旋转到6号大奖,需要转294.5deg(度)
+							break;
+						case 6:
+							run(247.5, texts[randomIndex]);
+							// 旋转到7号大奖,需要转247.5deg(度)
+							break;
+						case 7:
+							run(201.5, texts[randomIndex]);
+							// 旋转到8号大奖,需要转201.5deg(度)
+							break;
+					}
+                }
+			})
+
+			let timer = null;
+
+			function run(angle, text) {
+				let begin = 0;
+				let basic = 1800;
+				flag = false;
+				timer = setInterval(() => {
+					if (begin >= (angle + basic)) {
+						flag = true;
+						clearInterval(timer)
+						alert(text)
+					}
+					wrapper.style.transform = `rotate(${begin}deg)`
+					let value = Math.ceil((basic + angle - begin) * 0.1)
+					// 动画缓冲器,随着 begin值越大,begin值变化越慢
+					// 为了防止最后(basic + angle - begin) * 0.1变化得越来越小以至于begin的值越增越慢,导致定时器久久不能停止,
+					// 我们需要对 (basic + angle - begin) * 0.1向上取整，使定时器可以及时停止
+					begin += value;
+				}, 50)
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      function* generator(i){
+        yield i;
+        yield 2*i;
+        yield* anotherGenerator(i) ; // 移交控制权
+        yield i + 5;
+      }
+
+      function* anotherGenerator(i){
+        yield i - 1;
+        yield i - 2;
+         yield i - 3;
+      }
+      // 如果用的是 yield*（多了个星号），则表示将执行权移交给另一个生成器函数（当前生成器暂停执行） 移交代码控制权
+
+    let gen = generator(10);
+ 
+    console.log(gen.next());
+       // {value: 10, done: false},返回的结果为  yield i  yield关键字后的js表达式的结果(i),i的结果为10
+    console.log(gen.next());
+      // {value: 20, done: false},返回的结果为  yield 2*i  yield关键字后的js表达式的结果(2*i),2*i的结果为20
+
+    // 开始执行另一个生成器，anotherGenerator(i) 相当于 gen = anotherGenerator(i)
+    console.log(gen.next());
+      // {value: 9, done: false},返回的结果为  yield i-1  yield关键字后的js表达式的结果(i-1),i-1的结果为9
+    console.log(gen.next());
+      // {value: 8, done: false},返回的结果为  yield i-2  yield关键字后的js表达式的结果(i-2),i-2的结果为8
+    console.log(gen.next());
+     // {value: 7, done: false},返回的结果为  yield i-3  yield关键字后的js表达式的结果(i-3),i-1的结果为7
+     // 另一个生成器anotherGenerator执行完毕,继续执行generator 生成器
+
+   console.log(gen.next());
+    //  {value: 15, done: false},返回的结果为  yield i+5  yield关键字后的js表达式的结果(i+5),i+5的结果为15
+   console.log(gen.next());
+    //  {value: undefined, done: true},没有 yield 语句,所以生成器执行完毕,value为undefined,done为 true
+
+
+
+       
+    </script>
+</body>
+</html>

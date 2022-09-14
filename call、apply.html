@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      function demo(){
+    //   console.log(arguments);
+      // 获取函数执行时传入的实参列表,为一个伪数组(类数组)
+      // Arguments(3) [1, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+      // 扩展运算符将伪数组转为真正的数组
+      console.log(...arguments)
+      // 1 2 3
+      const arr1 = [...arguments];
+    //   console.log(arr1);
+      //[1, 2, 3]
+      // Array.prototype.slice.call()将伪数组转为真正的数组
+      const arr2 = Array.prototype.slice.call(arguments);
+    //   console.log(arr2)
+      //[1, 2, 3]
+      }
+      demo(1,2,3);
+
+      // 手写 call
+      function myCall(context){
+        // this为调用 myCall方法的函数 
+        if(typeof this !== "function"){
+            // typeof 检查函数时返回值为 "function"
+           throw new Error("请用函数调用myCall")
+        }
+
+        context = context || window
+        // if(context === undefined || null){
+        //     context = window;
+        // }
+        // context为传入的想改变为的this指向(改变后的this指向)
+        // 当传入的 context为 null、undefined 时 context为 window
+
+        // myCall 函数的this指向为调用 myCall 方法的函数
+        //将这个函数挂载到传入的context对象上(context对象的fn属性上)
+         context.fn = this;
+         // myCall函数的返回值为
+         // context对象调用这个 fn函数(并接收传入的参数)
+
+
+         //拿到除了第一个参数以外的参数
+         // [...arguments]将类数组转为真正的数组
+         // slice(1)表示从第一个索引为截取到最后一位(并且不改变原数组)
+         let args = [...arguments].slice(1);
+         //将参数数组展开
+         return context.fn(...args);
+      }
+
+      Function.prototype.myCall = myCall
+
+      // 手写 apply
+      function myApply(){
+      // this为调用 myCall方法的函数 
+         if(typeof this !== "function"){
+            // typeof 检查函数时返回值为 "function"
+           throw new Error("请用函数调用myCall")
+        }
+
+        context = context || window
+        // if(context === undefined || null){
+        //     context = window;
+        // }
+        // context为传入的想改变为的this指向(改变后的this指向)
+        // 当传入的 context为 null、undefined 时 context为 window
+
+        // myCall 函数的this指向为调用 myCall 方法的函数
+        //将这个函数挂载到传入的context对象上(context对象的fn属性上)
+         context.fn = this;
+         // myCall函数的返回值为
+         // context对象调用这个 fn函数(并接收传入的参数)
+ 
+         let result
+         if(arguments[1]){
+            result =  context.fn(...arguments[1]);
+         }else{
+            result =  context.fn();
+         }
+        delete context.fn;
+        return result;
+      }
+
+      Function.prototype.myApply = myApply
+      
+
+      
+    </script>
+</body>
+</html>
